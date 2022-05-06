@@ -9,18 +9,35 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <form action="#">
-        <label for="title">Title</label>
-        <input type="text" id="title" name="title">
-        <label for="author">Author</label>
-        <input type="text" id="author" name="author">
-        <label for="pages">Pages</label>
-        <input type="number" id="pages" name="pages">
-        <label for="yes">Yes</label>
-        <input type="radio" name="read" id="yes" value="yes">
-        <label for="no">No</label>
-        <input type="radio" name="read" id="no" value="no">
-        <button type="submit">Submit</button>
-    </form>
+    <header>
+        <h1>Library</h1>
+    </header>
+    <div id="main">
+        <button id="add-book">Add Book</button>
+        <div id="book-cards-container">
+            <div class="book-card">
+                <p>"The Maze Runner"</p>
+                <p>James Dashner</p>
+                <p>256 Pages</p>
+                <button id="read-button" class="read">Read</button>
+                <button id="remove-button">Remove</button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>Copyright © 2022 Martin Ukhanov</p>
+    </footer>
+    <div id="form-modal" class="hidden">
+        <form action="#">
+            <input type="text" id="title" name="title" placeholder="Title" required>
+            <input type="text" id="author" name="author" placeholder="Author" required>
+            <input type="number" id="pages" name="pages" placeholder="Pages" required>
+            <label for="isRead">
+                Have you read it? <input type="checkbox" name="isRead" id="isRead">
+            </label>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div id="overlay" class="hidden"></div>
 </body>
 </html>
