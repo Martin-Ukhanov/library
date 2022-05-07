@@ -1,10 +1,8 @@
-const addBookButton = document.getElementById('add-book');
-const readBookButton = document.getElementById('read-button');
-const removeBookButton = document.getElementById('remove-button');
-const bookCardsContainer = document.getElementById('book-cards-container');
-const formModal = document.getElementById('form-modal');
-const form = document.querySelector('form');
+const addBookBtn = document.getElementById('add-book-btn');
+const addBookModal = document.getElementById('add-book-modal');
+const addBookForm = document.getElementById('add-book-form');
 const overlay = document.getElementById('overlay');
+const bookGrid = document.getElementById('book-grid');
 
 let library = [];
 
@@ -19,34 +17,71 @@ const isInLibrary = (newBook) => {
     return library.some(book => book.title === newBook.title);
 }
 
+const findInLibrary = (title) => {
+    return library.find(book => book.title === title);
+}
+
+const toggleReadBook = (e) => {
+    const title = e.target.parentNode.firstElementChild.textContent;
+    const book = findInLibrary(title.slice(1, -1));
+    book.isRead = !book.isRead;
+    updateBookGrid();
+}
+
+const removeBook = (e) => {
+    const title = e.target.parentNode.firstElementChild.textContent;
+    const book = findInLibrary(title.slice(1, -1));
+    const bookIndex = library.indexOf(book);
+    library.splice(bookIndex, 1);
+    updateBookGrid();
+}
+
 const createBookCard = (book) => {
     const bookCard = document.createElement('div');
     const title = document.createElement('p');
     const author = document.createElement('p');
     const pages = document.createElement('p');
-    const isRead = document.createElement('p');
+    const readBtn = document.createElement('button');
+    const removeBtn = document.createElement('button');
 
     title.textContent = `"${book.title}"`;
     author.textContent = book.author;
     pages.textContent = `${book.pages} Pages`;
-    isRead.textContent = book.isRead ? 'Read' : 'Not Read';
+    
+    if (book.isRead) {
+        readBtn.textContent = 'Read'
+        readBtn.style.backgroundColor = '#9fff9c';
+    } else {
+        readBtn.textContent = 'Not Read'
+        readBtn.style.backgroundColor = '#ff9c9c';
+    }
+
+    removeBtn.textContent = 'Remove';
+
+    readBtn.addEventListener('click', (e) => toggleReadBook(e));
+    removeBtn.addEventListener('click', (e) => removeBook(e));
 
     bookCard.classList.add('book-card');
 
     bookCard.appendChild(title);
     bookCard.appendChild(author);
     bookCard.appendChild(pages);
-    bookCard.appendChild(isRead);
+    bookCard.appendChild(readBtn);
+    bookCard.appendChild(removeBtn);
 
     return bookCard;
 }
 
-const updateBookCardContainer = () => {
-    bookCardsContainer.innerHTML = '';
+const resetBookGrid = () => {
+    bookGrid.innerHTML = '';
+}
+
+const updateBookGrid = () => {
+    resetBookGrid();
 
     for (const book of library) {
         const bookCard = createBookCard(book);
-        bookCardsContainer.appendChild(bookCard);
+        bookGrid.appendChild(bookCard);
     }
 }
 
@@ -54,7 +89,7 @@ const getBookFromInput = () => {
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
     const pages = document.getElementById('pages').value;
-    const isRead = document.getElementById('isRead').checked;
+    const isRead = document.getElementById('is-read').checked;
     return new Book(title, author, pages, isRead);
 }
 
@@ -62,29 +97,24 @@ const addBookToLibrary = () => {
     const newBook = getBookFromInput();
     if (!isInLibrary(newBook)) {
         library.push(newBook);
-        updateBookCardContainer();
+        updateBookGrid();
+    } else {
+        alert('Book already in library.');
     }
 }
 
-const toggleFormModal = () => {
-    formModal.classList.toggle('hidden');
+const toggleAddBookModal = () => {
+    addBookModal.classList.toggle('hidden');
     overlay.classList.toggle('hidden');
+    addBookForm.reset();
 }
 
-readBookButton.addEventListener('click', () => {
-    readBookButton.classList.toggle('read');
-    readBookButton.classList.toggle('not-read');
-});
+addBookBtn.addEventListener('click', () => toggleAddBookModal());
+overlay.addEventListener('click', () => toggleAddBookModal());
 
-removeBookButton.addEventListener('click', (e) => {
-});
-
-addBookButton.addEventListener('click', () => toggleFormModal());
-overlay.addEventListener('click', () => toggleFormModal());
-
-form.addEventListener('submit', (e) => {
+addBookForm.addEventListener('submit', (e) => {
     e.preventDefault();
     addBookToLibrary();
     e.target.reset();
-    toggleFormModal();
+    toggleAddBookModal();
 });

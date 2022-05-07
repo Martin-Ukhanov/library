@@ -1,7 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+:root {
+    --color-1: #f8fafc;
+    --color-2: #1e293b;
+    --border-radius: 10px;
+}
+
 * {
     margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+    font-family: 'Poppins', serif;
 }
 
 html {
@@ -12,26 +21,52 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    background-color: var(--color-1);
 }
 
-header {
+header, footer {
     display: flex;
     justify-content: center;
     padding: 1rem;
-    background-color: blue;
+    color: var(--color-1);
+    background-color: var(--color-2);
 }
 
-#main {
-    height: 100%;
-    padding: 1rem 20rem;
+header {
+    font-size: 1.5rem;
 }
 
-#book-cards-container {
+footer {
+    margin-top: auto;
+}
+
+main {
+    padding: 1rem;
+    text-align: center;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1.5rem;
+    color: var(--color-2);
+}
+
+button:hover {
+    filter: brightness(80%);
+}
+
+#add-book-btn {
+    margin-bottom: 1rem;
+    color: var(--color-1);
+    background-color: var(--color-2);
+}
+
+#book-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1rem;
-    border: 1px solid red;
 }
 
 .book-card {
@@ -40,27 +75,18 @@ header {
     flex-direction: column;
     align-items: center;
     row-gap: 1rem;
-    border: 1px solid black;
+    font-size: 1.5rem;
+    color: var(--color-1);
+    background-color: var(--color-2);
+    border-radius: var(--border-radius);
 }
 
-#read-button.read {
-    content: 'Read';
-    background-color: green;
+.book-card button {
+    width: 100%;
+    background-color: var(--color-1);
 }
 
-#read-button.not-read {
-    content: 'Not Read';
-    background-color: red;
-}
-
-footer {
-    display: flex;
-    justify-content: center;
-    padding: 1rem;
-    background-color: blue;
-}
-
-#form-modal {
+#add-book-modal {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -68,19 +94,45 @@ footer {
     z-index: 1;
 }
 
-form {
+#add-book-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     row-gap: 1rem;
     padding: 1rem;
-    border: 1px solid black;
-    background-color: white;
+    font-size: 1.5rem;
+    color: var(--color-1);
+    background-color: var(--color-2);
+    border-radius: var(--border-radius);
+}
+
+#add-book-form input {
+    color: var(--color-2);
+    font-size: 1.5rem;
+}
+
+#add-book-form input[type="text"], #add-book-form input[type="number"] {
+    padding: 0.5rem;
+    background-color: var(--color-1);
+    border: none;
+    border-radius: var(--border-radius);
+    outline: none;
+}
+
+#add-book-form input[type="checkbox"] {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+#add-book-form button {
+    color: var(--color-2);
+    background-color: var(--color-1);
 }
 
 #overlay {
     position: fixed;
+    top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5)
